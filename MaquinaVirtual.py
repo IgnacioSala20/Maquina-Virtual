@@ -32,18 +32,22 @@ def a7():
     pass
 funciones={
     "a0":a0,
-    "a1":a0,
-    "a2":a0,
-    "a3":a0,
-    "a4":a0,
-    "a5":a0,
-    "a6":a0,
-    "a7":a0,
+    "a1":a1,
+    "a2":a2,
+    "a3":a3,
+    "a4":a4,
+    "a5":a5,
+    "a6":a6,
+    "a7":a7,
 }
 
 def extraerOp(valor):
     print(hex(memoria[i])[2:len(hex(memoria[i]))])
     return hex(memoria[i])[2:len(hex(memoria[i]))]
+
+def may255(valor): #Cuando usemos valores mayores a 255
+    return bin(valor)[len(bin(valor))-8:len(bin(valor))]
+
 # Definimos el Tamaño de la memoria
 # Inicializar la memoria con enteros en lugar de cadenas
 memoria = [0] * 10
@@ -70,5 +74,8 @@ for i in range(len(memoria)):
     if a in operaciones:
         funciones[a]()
     
+print()
+for i in range(len(memoria)):
+    print(memoria[i])
 
 dump_mem(memoria)
