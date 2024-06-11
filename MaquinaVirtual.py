@@ -21,4 +21,3 @@ for c in code:
         pos += 1
 
 print(memoria)
-print("hola mundo")
