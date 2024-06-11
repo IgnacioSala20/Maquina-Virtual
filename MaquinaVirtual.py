@@ -25,6 +25,26 @@ def a6():
     pass
 def a7():
     pass
+def d0(instrucciones,i,memoria): #Suma 
+    var1=int(instrucciones[i+1]+instrucciones[i+2],16)
+    var2=int(instrucciones[i+3]+instrucciones[i+4],16)
+    suma=memoria[var1]+memoria[var2]
+    memoria[var2]=suma
+    return memoria
+
+def d1(instrucciones,i,memoria):
+    var1=int(instrucciones[i+1]+instrucciones[i+2],16)
+    var2=int(instrucciones[i+3]+instrucciones[i+4],16)
+    suma=memoria[var2]-memoria[var1]
+    memoria[var2]=suma
+    return memoria
+
+def d2(instrucciones,i,memoria):
+    var1=int(instrucciones[i+1]+instrucciones[i+2],16)
+    var2=int(instrucciones[i+3]+instrucciones[i+4],16)
+    suma=memoria[var1]%memoria[var2]
+    memoria[var2]=suma
+    return memoria
 funciones={ #si "a0" esta en el vevtor operaciones va a hacer tal funcion que esta determinada aca:
     "a0":a0,
     "a1":a1,
