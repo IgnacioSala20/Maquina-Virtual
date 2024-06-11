@@ -1,6 +1,3 @@
-b=int(input())
-
-a=bin(b)
-print(a)
-print()
-print(a[len(a)-8:len(a)])
+hexadecimal = "d1f4"
+decimal = int(hexadecimal, 16)
+print(decimal)  # Esto imprimirá 160
