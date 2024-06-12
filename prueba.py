@@ -1,9 +1,5 @@
-def hola(): #Suma 
-    v=2+5
-    a=78+2
-    return v,a
-
-v, a=hola()
-
-print(v)
-print(a)
+a=15
+b=21
+print(bin(a))
+print(bin(b))
+print(a and b)

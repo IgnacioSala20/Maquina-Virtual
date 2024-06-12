@@ -1,111 +1,169 @@
 #Es para ejecutar desde terminal
 #python3 MaquinaVirtual.py /home/ignacio/PruebasComandos/Maquina-Virtual/prog1.bin
 
-    #git add .
-    #git commit -m “Mensaje sobre el cambio que hicimos”
-    #git push origin master
+
+
+
+   #git add .
+   #git commit -m “Mensaje sobre el cambio que hicimos”
+   #git push origin master
+
+
+
 
 import sys
-def a0(instrucciones,i,memoria):
-    var=int(instrucciones[i+1]+instrucciones[i+2],16) #agarro pos 1 y 2 y las paso a decimal
-    var=9
-    memoria[var]=int(instrucciones[i+3],16)
-    i=i+3
-    return memoria
+
+
+c=0
+def a0(c,memoria):
+   var=int(extraerOp(memoria[c+1])+extraerOp(memoria[c+2]),16) #agarro pos 1 y 2 y las paso a decimal
+   #memoria[var]=int(memoria[c+3],16)
+   print(f"La operacion es {memoria[c]} el valor que se va a guardar en la posicion {var} es {memoria[c+3]}")
+   c=c+4
+   return memoria,c
 def a1():
-    pass
+   pass
 def a2():
-    pass
+   pass
 def a3():
-    pass
+   pass
 def a4():
-    pass
+   pass
 def a5():
-    pass
+   pass
 def a6():
-    pass
+   pass
 def a7():
-    pass
-def d0(instrucciones,i,memoria): #Suma 
-    var1=int(instrucciones[i+1]+instrucciones[i+2],16)
-    var2=int(instrucciones[i+3]+instrucciones[i+4],16)
-    suma=memoria[var1]+memoria[var2]
-    a=may255(suma)
-    memoria[var2]=a
-    i=i+4
-    return memoria
+   pass
+def b0():
+   pass
+def b1():
+   pass
+def b2():
+   pass
+def c0():
+   pass
+def c1():
+   pass
+def c2():
+   pass
+def c3():
+   pass
 
-def d1(instrucciones,i,memoria): #Resta
-    var1=int(instrucciones[i+1]+instrucciones[i+2],16)
-    var2=int(instrucciones[i+3]+instrucciones[i+4],16)
-    suma=memoria[var2]-memoria[var1]
-    memoria[var2]=suma
-    return memoria
 
-def d2(instrucciones,i,memoria): #Modulo
-    var1=int(instrucciones[i+1]+instrucciones[i+2],16)
-    var2=int(instrucciones[i+3]+instrucciones[i+4],16)
-    suma=memoria[var1]%memoria[var2]
-    memoria[var2]=suma
-    return memoria
+def d0(memoria,c): #Suma
+    var1=int(extraerOp(memoria[c+1])+extraerOp(memoria[c+2]),16)
+    var2=int(extraerOp(memoria[c+3])+extraerOp(memoria[c+4]),16)
+    #suma=memoria[var1]+memoria[var2]
+    #a=may255(suma)
+    #memoria[var2]=a
+    print(f"La operacion es {memoria[c]} y se va a guardar en la posicion {var1 + var2} el valor de {var2}")
+    c=c+5
+    return memoria,c
+
+
+
+
+def d1(memoria,c): #Resta
+   var1=int(extraerOp(memoria[c+1])+extraerOp(memoria[c+2]),16)
+   var2=int(extraerOp(memoria[c+3])+extraerOp(memoria[c+4]),16)
+   #suma=memoria[var2]-memoria[var1]
+   #memoria[var2]=suma
+
+
+   return memoria,c
+
+
+
+
+def d2(memoria,c): #Modulo
+   var1=int(extraerOp(memoria[c+1])+extraerOp(memoria[c+2]),16)
+   var2=int(extraerOp(memoria[c+3])+extraerOp(memoria[c+4]),16)
+   suma=memoria[var1]%memoria[var2]
+   memoria[var2]=suma
+   return memoria
+
+
+def f0(c,memoria):
+   with open('mem.dump','wb') as d:
+       memoria_bytes=bytes(memoria) #Convertimos la variable en una cadena de bytes
+       d.write(memoria_bytes) #Lo escribimos en el archivo mem.dump
+       c =c+1
+       return memoria,c
+def f1(c, memoria):
+   c=c+1
+   return memoria,c
 funciones={ #si "a0" esta en el vevtor operaciones va a hacer tal funcion que esta determinada aca:
-    "a0":a0,
-    "a1":a1,
-    "a2":a2,
-    "a3":a3,
-    "a4":a4,
-    "a5":a5,
-    "a6":a6,
-    "a7":a7,
+   "a0":a0,
+   "a1":a1,
+   "a2":a2,
+   "a3":a3,
+   "a4":a4,
+   "a5":a5,
+   "a6":a6,
+   "a7":a7,
+   "b0":b0,
+   "b1":b1,
+   "c0":c0,
+   "c1":c1,
+   "c2":c2,
+   "c3":c3,
+   "d0":d0,
+   "d1":d1,
+   "d2":d2,
+   "f0":f0,
+   "f1":f1,
+   
 }
 
+
 def extraerOp(valor): #a0 d1 f4 10 ejemplo
-    return hex(valor)[2:len(hex(valor))] #le saca la x al hexa
+   return hex(valor)[2:len(hex(valor))] #le saca la x al hexa
+
 
 def may255(valor): #Cuando usemos valores mayores a 255
-    return bin(valor)[len(bin(valor))-8:len(bin(valor))]
+   return bin(valor)[len(bin(valor))-8:len(bin(valor))]
+
 
 # Definimos el Tamaño de la memoria
 # Inicializar la memoria con enteros en lugar de cadenas
-memoria = [0] * 15 #vector memoria
+memoria = [0] * 35#vector memoria
+
 
 #El programa comenzara comparando la primer direccion con un VECTOR con todas las operaciones, si se encuentra la misma, lo que hacemos sera mandarlo a esa funcion,
 #Esa funcion lo que hara es que tendra un valor que retornara que sera el valor que aumentara en la memoria para seguir leyendo los programas,
 #Luego lo que hara es depende el OP code,  sera ver los parametros y luego realizar lo que tenga que hacer esa operacion.
 
-operaciones=["a0","a1","a2","a3","a4","a5","a6","a7"]
 
-def dump_mem(memoria):
-    with open('mem.dump','wb') as d:
-        memoria_bytes=bytes(memoria) #Convertimos la variable en una cadena de bytes
-        d.write(memoria_bytes) #Lo escribimos en el archivo mem.dump
+operaciones=["a0","a1","a2","a3","a4","a5","a6","a7","b0","b1","c0","c1","c2","c3","d0","d1","d2","f0","f1"]
+
 
 # Abrimos el programa a ejecutar
 with open(sys.argv[1], 'rb') as programa:
-    code = programa.read()
-    
+   code = programa.read()
+ 
 #print(code)
 
-intrucciones=[int for ind0 in range(len(code))]
 
-for i in range(len(code)):
-    intrucciones[i]=extraerOp(code[i])
-print(intrucciones)
+#for i in range(len(code)):
+   #memoria[i]=extraerOp(code[i])
+   
+#print(memoria)
 
 
 # Recorremos y colocamos cada codigo en una posicion de memoria
 pos = 0
-for c in code:
+for i in code:
     if pos < 1025:
-        memoria[pos] = c
-        pos += 1
-print(memoria)  
+       memoria[pos] = i
+       pos += 1
 
-for i in range(len(memoria)): #lee memoria
-    a=extraerOp(memoria[i]) #
-    if a in operaciones: #si esta en el vector operaciones (compara)
-        b=funciones[a](intrucciones,i,memoria)
-    if a =="d0":
-        d0(intrucciones,i,memoria)
 
-dump_mem(memoria)
+while c < len(memoria):
+    a = extraerOp(memoria[c])
+    #print(memoria[c])
+    if a in funciones:
+      memoria, c = funciones[a]( c, memoria)
+      #print(c)
+    else:
+        c += 1
