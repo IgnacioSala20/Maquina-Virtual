@@ -56,9 +56,11 @@ def c3():
 def d0(c,memoria): #Suma
    var1=int(extraerOp(memoria[c+1])+extraerOp(memoria[c+2]),16)
    var2=int(extraerOp(memoria[c+3])+extraerOp(memoria[c+4]),16)
-   suma=memoria[var1]+memoria[var2]
-   a=may255(suma)
-   memoria[var2]=a
+   a=memoria[var1]+memoria[var2]
+   if len(bin(a))>8:
+      a=may255(a)
+   else:
+      memoria[var2]=a
    c=c+5
    return memoria,c
 
@@ -81,7 +83,8 @@ def f0(c,memoria):
    with open('mem.dump','wb') as d:
        memoria_bytes=bytes(memoria) #Convertimos la variable en una cadena de bytes
        d.write(memoria_bytes) #Lo escribimos en el archivo mem.dump
-       return memoria,c
+   return memoria,c
+
 
 def f1(c, memoria):
    c=len(memoria)+1
@@ -106,14 +109,14 @@ funciones={ #si "a0" esta en el vevtor operaciones va a hacer tal funcion que es
    "0xd0":d0,
    "0xd1":d1,
    "0xd2":d2,
-   "0xf":f0, #Falta completar y que quede f0, CORREGIR FUNCION
+   "0xf0":f0, #Falta completar y que quede f0, CORREGIR FUNCION
    "0xf1":f1,
 }
 def extraerOp(valor): #a0 d1 f4 10 ejemplo
    return hex(valor)[2:len(hex(valor))] #le saca la x al hexa
 
 def may255(valor): #Cuando usemos valores mayores a 255
-   return bin(valor)[len(bin(valor))-8:len(bin(valor))]
+   return int(bin(valor)[len(bin(valor))-8:len(bin(valor))],2)
    
 
 memoria = [0] * 65535#vector memoria
@@ -124,7 +127,6 @@ operaciones=["a0","a1","a2","a3","a4","a5","a6","a7","b0","b1","c0","c1","c2","c
 # Abrimos el programa a ejecutar
 with open(sys.argv[1], 'rb') as programa:
    code = programa.read()
-
 # Recorremos y colocamos cada codigo en una posicion de memoria
 pos = 100
 for i in code:
@@ -136,6 +138,6 @@ while c < len(memoria):
     a = hex(memoria[c])
     if a in funciones: # compara con funciones
         memoria, c =funciones[a](c,memoria)   
-        
     else:
         c += 1
+
