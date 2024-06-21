@@ -79,12 +79,11 @@ def d2(c,memoria): #Modulo
    return memoria
 
 def f0(c,memoria):
-   c =c+1
+   c=c+1
    with open('mem.dump','wb') as d:
        memoria_bytes=bytes(memoria) #Convertimos la variable en una cadena de bytes
        d.write(memoria_bytes) #Lo escribimos en el archivo mem.dump
    return memoria,c
-
 
 def f1(c, memoria):
    c=len(memoria)+1
@@ -109,7 +108,7 @@ funciones={ #si "a0" esta en el vevtor operaciones va a hacer tal funcion que es
    "0xd0":d0,
    "0xd1":d1,
    "0xd2":d2,
-   "0xf0":f0, #Falta completar y que quede f0, CORREGIR FUNCION
+   "0xf0":f0,
    "0xf1":f1,
 }
 def extraerOp(valor): #a0 d1 f4 10 ejemplo
@@ -118,9 +117,7 @@ def extraerOp(valor): #a0 d1 f4 10 ejemplo
 def may255(valor): #Cuando usemos valores mayores a 255
    return int(bin(valor)[len(bin(valor))-8:len(bin(valor))],2)
    
-
 memoria = [0] * 65535#vector memoria
-
 
 operaciones=["a0","a1","a2","a3","a4","a5","a6","a7","b0","b1","c0","c1","c2","c3","d0","d1","d2","f0","f1"]
 
