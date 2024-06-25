@@ -1,6 +1,4 @@
+def xor(cadena1,cadena2):
+   return cadena1 ^ cadena2
 
-         
-    
-a=str(input())
-
-print(negar(a))
+print(xor(int(input()),int(input())))

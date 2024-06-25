@@ -1,7 +1,7 @@
 # Abre un archivo en modo binario para escribir
 with open('archivo.bin', 'wb') as f:
     # Lista de valores que deseas escribir en el archivo binario
-    valores = [0xa0, 0xd1, 0x00, 0xff]  # Puedes agregar más valores si lo deseas
+    valores = [0xa1, 0xd1, 0xf4, 0xF0, 0xf1]  # Puedes agregar más valores si lo deseas
     
     # Itera sobre cada valor y escríbelo en el archivo
     for valor in valores:

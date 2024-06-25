@@ -11,8 +11,12 @@
    
    #xxd -s 53744 -l 128 /home/ignacio/PruebasComandos/Maquina-Virtual/mem.dump Para mostrar el volcado de memoria desde 53744 a la longitud 128
    
-   #xxd /home/ignacio/PruebasComandos/Maquina-Virtual/mem.dump Muestra todo el mem.dump
+   #xxd /home/ignacio/PruebasComandos/Maquina-Virtual/mem.dump Muestra todo el mem.dump en linux
 
+global xp
+xp=0
+def xor(cadena1,cadena2):
+   return cadena1 ^ cadena2
 
 def negar(cadena):
     var=str()
@@ -26,12 +30,31 @@ def negar(cadena):
 import sys
 c=100
 def a0(c,memoria):
-   var=int(extraerOp(memoria[c+1])+extraerOp(memoria[c+2]),16) #agarro pos 1 y 2 y las paso a decimal
+   q=extraerOp(memoria[c+1])
+   w=str(extraerOp(memoria[c+2]))
+   if len(q)<2:
+      q="0"+q
+   elif len(w)<2:
+      w="0"+w
+   var=int(q+w,16)
    memoria[var]=int(extraerOp(memoria[c+3]),16)
    c=c+4
    return memoria,c
-def a1():
-   pass
+def a1(c, memoria):
+   var=int(extraerOp(memoria[c+1])+extraerOp(memoria[c+2]),16)
+   N1=str(c)
+   if c<255:  
+      N1="0"+str(N1)
+   else:
+      N1=str(may255(c))
+      if int(N1)<100:
+         N1="00"+str(N1)
+      else:
+         N1="0"+str(N1)
+   memoria[var]=int(N1[0:2])
+   memoria[var+1]=int(N1[2:len(N1)])
+   c=c+3
+   return memoria,c
 def a2():
    pass
 def a3():
@@ -68,8 +91,16 @@ def c2(c,memoria):
    c=c+5
    memoria[var2]=disyuncion
 
-def c3():
-   pass
+def c3(c, memoria):
+   var1=int(extraerOp(memoria[c+1])+extraerOp(memoria[c+2]),16)
+   var2=int(extraerOp(memoria[c+3])+extraerOp(memoria[c+4]),16)
+   resultado=xor(memoria[var1],memoria[var2])
+   if len(bin(resultado))>8:
+      resultado=may255(resultado)
+      memoria[var2]=resultado
+   else:
+      memoria[var2]=resultado
+   return memoria,c
 
 def d0(c,memoria): #Suma
    var1=int(extraerOp(memoria[c+1])+extraerOp(memoria[c+2]),16)
@@ -77,6 +108,7 @@ def d0(c,memoria): #Suma
    a=memoria[var1]+memoria[var2]
    if len(bin(a))>8:
       a=may255(a)
+      memoria[var2]=a
    else:
       memoria[var2]=a
    c=c+5
@@ -86,13 +118,12 @@ def d1(c,memoria): #Resta
    var1=int(extraerOp(memoria[c+1])+extraerOp(memoria[c+2]),16)
    var2=int(extraerOp(memoria[c+3])+extraerOp(memoria[c+4]),16)
    suma=memoria[var2]-memoria[var1]
-   memoria[var2]=suma
    if len(bin(suma))>8:
       suma=may255(suma)
+      memoria[var2]=suma
    else:
       memoria[var2]=suma
    c=c+5
-   print(suma)
    return memoria,c
 
 def d2(c,memoria): #Modulo
@@ -164,8 +195,8 @@ print(code)
 pos = 100
 for i in code:
    if pos < 1025:
-       memoria[pos]=i
-       pos += 1
+      memoria[pos]=i
+      pos += 1
 
 while c < len(memoria):
     a = hex(memoria[c])
@@ -173,4 +204,3 @@ while c < len(memoria):
         memoria, c =funciones[a](c,memoria)
     else:
         c += 1
-
