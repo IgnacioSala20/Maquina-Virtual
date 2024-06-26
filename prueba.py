@@ -1,4 +1,10 @@
-def xor(cadena1,cadena2):
-   return cadena1 ^ cadena2
+global c
 
-print(xor(int(input()),int(input())))
+c=0
+
+def suma(val,val1):
+  c=c+1
+  
+  
+suma(1,2)
+print(c)
