@@ -9,7 +9,6 @@ def a0():
    global c,memoria
    var=(memoria[c+1] << 8) + memoria[c+2]
    memoria[var]=memoria[c+3]
-   print(hex(memoria[var]))
    c=c+4
 def a1():
    global c,memoria
