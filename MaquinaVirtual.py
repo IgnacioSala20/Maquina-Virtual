@@ -9,7 +9,6 @@ def a0():
    global c,memoria
    var=(memoria[c+1] << 8) + memoria[c+2]
    memoria[var]=memoria[c+3]
-   print(hex(memoria[var]))
    c=c+4
 def a1():
    global c,memoria
@@ -19,6 +18,7 @@ def a1():
    memoria[var+1]=c & 0xFF  # Obtener el byte bajo
    #En este caso al no direccionar el valor c (Se hace con el c>>8), al no hacerlo, seria 0x64 & 0xFF, que ese resultado quedaria 0x64
    c=c+3
+
 def a2():
    global c,memoria
    var=(memoria[c+1] << 8) + memoria[c+2]
@@ -35,6 +35,7 @@ def a3():
    memoria[var2]=memoria[var]
    memoria[var]=0
    c=c+5
+   
 def a4():
    global xp,c,memoria
    var=(memoria[c+1] << 8) + memoria[c+2]
